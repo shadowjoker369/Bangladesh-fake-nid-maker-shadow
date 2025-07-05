@@ -2,30 +2,17 @@
 <html lang="bn">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BANGLADESH NID GENERATOR</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bangladesh NID Generator</title>
   <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
   <style>
-    @font-face {
-      font-family: 'Nikosh';
-      src: url('nikosh.ttf');
-    }
-
-    @font-face {
-      font-family: 'Sans';
-      src: url('sans.ttf');
-    }
-
-    @font-face {
-      font-family: 'SignFont';
-      src: url('sign.ttf');
-    }
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali&display=swap');
 
     body {
       text-align: center;
-      background-color: #f0f0f0;
-      font-family: 'Sans', sans-serif;
+      background-color: #f5f5f5;
+      font-family: 'Noto Sans Bengali', sans-serif;
       margin: 0;
       padding: 0;
     }
@@ -64,31 +51,38 @@
       background-color: #0056b3;
     }
 
-    h2 {
-      margin-top: 20px;
-    }
-
     .nid-card {
       width: 353px;
       height: 230px;
       border: 2px solid black;
       padding: 8px;
-      text-align: left;
       margin: 20px auto;
       position: relative;
       background: white;
-      box-sizing: border-box;
       display: none;
     }
 
     .heading-box {
       text-align: center;
       border-bottom: 2px solid black;
-      padding-bottom: 4px;
+      padding-bottom: 2px;
     }
 
-    .logo {
-      width: 100%;
+    .heading-box img {
+      height: 25px;
+    }
+
+    .heading-box p {
+      margin: 0;
+      font-size: 13px;
+    }
+
+    .coat {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      height: 35px;
+      opacity: 0.3;
     }
 
     .profile-section {
@@ -114,30 +108,22 @@
       font-size: 14px;
     }
 
-    .bangla {
-      font-family: 'Nikosh', sans-serif;
-    }
-
-    .english {
-      font-family: 'Sans', sans-serif;
-    }
-
     .red-text {
       color: red;
       font-weight: bold;
     }
 
     .signature {
-      font-family: 'SignFont', cursive;
+      font-family: cursive;
       font-size: 18px;
-      margin-top: -30px;
-      margin-left: 95px;
+      margin-top: -28px;
+      margin-left: 100px;
     }
 
     .watermark {
       position: absolute;
       width: 65%;
-      opacity: 0.2;
+      opacity: 0.1;
       bottom: 2px;
       left: 53%;
       transform: translateX(-50%);
@@ -145,11 +131,8 @@
 
     footer {
       width: 100%;
-      height: 67px;
-      background-image: url('footer.png');
-      background-size: cover;
-      background-position: center;
-      box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.6);
+      height: 60px;
+      background: url('https://iili.io/FcpDTKb.md.jpg') center/cover no-repeat;
       margin-top: 50px;
     }
 
@@ -168,36 +151,19 @@
 </head>
 <body>
 
-  <!-- 🔥 Header Cover Image -->
   <img src="https://iili.io/FcpDTKb.md.jpg" alt="Cover Banner" class="top-banner">
 
   <h2>Bangladesh NID Generator</h2>
 
   <form id="nidForm">
-    <label>নাম (Bangla):</label>
-    <input type="text" id="nameBn" required>
-
-    <label>Name (English):</label>
-    <input type="text" id="nameEn" required>
-
-    <label>পিতা (Father's Name):</label>
-    <input type="text" id="father" required>
-
-    <label>মাতা (Mother's Name):</label>
-    <input type="text" id="mother" required>
-
-    <label>Date of Birth:</label>
-    <input type="text" id="dob" placeholder="dd-mm-yyyy" required>
-
-    <label>ID Number:</label>
-    <input type="text" id="idNumber" required>
-
-    <label>Signature (Type):</label>
-    <input type="text" id="signature" required>
-
-    <label>Profile Picture:</label>
+    <input type="text" id="nameBn" placeholder="নাম (বাংলায়)" required>
+    <input type="text" id="nameEn" placeholder="Name (English)" required>
+    <input type="text" id="father" placeholder="পিতা" required>
+    <input type="text" id="mother" placeholder="মাতা" required>
+    <input type="text" id="dob" placeholder="Date of Birth (dd-mm-yyyy)" required>
+    <input type="text" id="idNumber" placeholder="ID Number" required>
+    <input type="text" id="signature" placeholder="Signature Text" required>
     <input type="file" id="profilePic" accept="image/*" required>
-
     <button type="button" onclick="generateNID()">Generate NID</button>
     <button type="button" onclick="downloadNID()">Download NID</button>
   </form>
@@ -205,21 +171,25 @@
   <!-- NID Card Display -->
   <div id="nidCard" class="nid-card">
     <div class="heading-box">
-      <img src="head.png" class="logo" alt="Header Logo">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Flag_of_Bangladesh.svg/1200px-Flag_of_Bangladesh.svg.png" alt="BD Logo">
+      <p>গণপ্রজাতন্ত্রী বাংলাদেশ সরকার</p>
+      <p>Government of the People's Republic of Bangladesh</p>
     </div>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2c/National_emblem_of_Bangladesh.svg" class="coat" alt="BD Emblem">
+
     <div class="profile-section">
       <img id="uploadedPic" class="profile-pic" src="" alt="Profile">
       <div class="details">
-        <p class="bangla"><strong>নাম:</strong> <span id="cardNameBn"></span></p>
-        <p class="english"><strong>Name:</strong> <span id="cardNameEn"></span></p>
-        <p class="bangla"><strong>পিতা:</strong> <span id="cardFather"></span></p>
-        <p class="bangla"><strong>মাতা:</strong> <span id="cardMother"></span></p>
+        <p><strong>নাম:</strong> <span id="cardNameBn"></span></p>
+        <p><strong>Name:</strong> <span id="cardNameEn"></span></p>
+        <p><strong>পিতা:</strong> <span id="cardFather"></span></p>
+        <p><strong>মাতা:</strong> <span id="cardMother"></span></p>
         <p class="red-text"><strong>Date of Birth:</strong> <span id="cardDOB"></span></p>
         <p class="red-text"><strong>ID NO:</strong> <span id="cardID"></span></p>
       </div>
     </div>
     <p class="signature" id="cardSignature"></p>
-    <img src="water2.png" class="watermark" alt="Watermark">
+    <img src="https://iili.io/FcpDTKb.md.jpg" class="watermark" alt="Watermark">
   </div>
 
   <footer></footer>
