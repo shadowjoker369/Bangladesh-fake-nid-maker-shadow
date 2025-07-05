@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BANGLADESH NID GENERATOR</title>
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
+  <style>
+    @font-face {
+      font-family: 'Nikosh';
+      src: url('nikosh.ttf');
+    }
+
+    @font-face {
+      font-family: 'Sans';
+      src: url('sans.ttf');
+    }
+
+    @font-face {
+      font-family: 'SignFont';
+      src: url('sign.ttf');
+    }
+
+    body {
+      text-align: center;
+      background-color: #f0f0f0;
+      font-family: 'Sans', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .top-banner {
+      width: 100%;
+      display: block;
+    }
+
+    form {
+      max-width: 400px;
+      margin: 20px auto;
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #aaa;
+    }
+
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      font-size: 16px;
+      border: 2px solid #000;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    h2 {
+      margin-top: 20px;
+    }
+
+    .nid-card {
+      width: 353px;
+      height: 230px;
+      border: 2px solid black;
+      padding: 8px;
+      text-align: left;
+      margin: 20px auto;
+      position: relative;
+      background: white;
+      box-sizing: border-box;
+      display: none;
+    }
+
+    .heading-box {
+      text-align: center;
+      border-bottom: 2px solid black;
+      padding-bottom: 4px;
+    }
+
+    .logo {
+      width: 100%;
+    }
+
+    .profile-section {
+      display: flex;
+      align-items: flex-start;
+      margin-top: 10px;
+    }
+
+    .profile-pic {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border: 1px solid black;
+    }
+
+    .details {
+      flex: 1;
+      margin-left: 10px;
+    }
+
+    .details p {
+      margin: 2px 0;
+      font-size: 14px;
+    }
+
+    .bangla {
+      font-family: 'Nikosh', sans-serif;
+    }
+
+    .english {
+      font-family: 'Sans', sans-serif;
+    }
+
+    .red-text {
+      color: red;
+      font-weight: bold;
+    }
+
+    .signature {
+      font-family: 'SignFont', cursive;
+      font-size: 18px;
+      margin-top: -30px;
+      margin-left: 95px;
+    }
+
+    .watermark {
+      position: absolute;
+      width: 65%;
+      opacity: 0.2;
+      bottom: 2px;
+      left: 53%;
+      transform: translateX(-50%);
+    }
+
+    footer {
+      width: 100%;
+      height: 67px;
+      background-image: url('footer.png');
+      background-size: cover;
+      background-position: center;
+      box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.6);
+      margin-top: 50px;
+    }
+
+    .credit {
+      font-size: 0.9rem;
+      color: #333;
+      margin: 10px 0;
+    }
+
+    .credit a {
+      color: #007bff;
+      font-weight: bold;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 🔥 Header Cover Image -->
+  <img src="https://iili.io/FcpDTKb.md.jpg" alt="Cover Banner" class="top-banner">
+
+  <h2>Bangladesh NID Generator</h2>
+
+  <form id="nidForm">
+    <label>নাম (Bangla):</label>
+    <input type="text" id="nameBn" required>
+
+    <label>Name (English):</label>
+    <input type="text" id="nameEn" required>
+
+    <label>পিতা (Father's Name):</label>
+    <input type="text" id="father" required>
+
+    <label>মাতা (Mother's Name):</label>
+    <input type="text" id="mother" required>
+
+    <label>Date of Birth:</label>
+    <input type="text" id="dob" placeholder="dd-mm-yyyy" required>
+
+    <label>ID Number:</label>
+    <input type="text" id="idNumber" required>
+
+    <label>Signature (Type):</label>
+    <input type="text" id="signature" required>
+
+    <label>Profile Picture:</label>
+    <input type="file" id="profilePic" accept="image/*" required>
+
+    <button type="button" onclick="generateNID()">Generate NID</button>
+    <button type="button" onclick="downloadNID()">Download NID</button>
+  </form>
+
+  <!-- NID Card Display -->
+  <div id="nidCard" class="nid-card">
+    <div class="heading-box">
+      <img src="head.png" class="logo" alt="Header Logo">
+    </div>
+    <div class="profile-section">
+      <img id="uploadedPic" class="profile-pic" src="" alt="Profile">
+      <div class="details">
+        <p class="bangla"><strong>নাম:</strong> <span id="cardNameBn"></span></p>
+        <p class="english"><strong>Name:</strong> <span id="cardNameEn"></span></p>
+        <p class="bangla"><strong>পিতা:</strong> <span id="cardFather"></span></p>
+        <p class="bangla"><strong>মাতা:</strong> <span id="cardMother"></span></p>
+        <p class="red-text"><strong>Date of Birth:</strong> <span id="cardDOB"></span></p>
+        <p class="red-text"><strong>ID NO:</strong> <span id="cardID"></span></p>
+      </div>
+    </div>
+    <p class="signature" id="cardSignature"></p>
+    <img src="water2.png" class="watermark" alt="Watermark">
+  </div>
+
+  <footer></footer>
+  <div class="credit">
+    AUTHOR: <a href="https://t.me/cyberteamhelp" target="_blank">CYBER TEAM HELP</a> | BY <strong>SHADOW JOKER</strong>
+  </div>
+
+  <script>
+    function generateNID() {
+      document.getElementById('cardNameBn').innerText = document.getElementById('nameBn').value;
+      document.getElementById('cardNameEn').innerText = document.getElementById('nameEn').value;
+      document.getElementById('cardFather').innerText = document.getElementById('father').value;
+      document.getElementById('cardMother').innerText = document.getElementById('mother').value;
+      document.getElementById('cardDOB').innerText = document.getElementById('dob').value;
+      document.getElementById('cardID').innerText = document.getElementById('idNumber').value;
+      document.getElementById('cardSignature').innerText = document.getElementById('signature').value;
+
+      const profileInput = document.getElementById('profilePic');
+      if (profileInput.files.length > 0) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById('uploadedPic').src = e.target.result;
+        };
+        reader.readAsDataURL(profileInput.files[0]);
+      }
+
+      document.getElementById('nidCard').style.display = 'block';
+    }
+
+    function downloadNID() {
+      const nidCard = document.getElementById('nidCard');
+
+      html2canvas(nidCard, {
+        useCORS: true,
+        scale: 3,
+        backgroundColor: null
+      }).then(canvas => {
+        const link = document.createElement('a');
+        link.href = canvas.toDataURL('image/png');
+        link.download = 'Bangladesh_NID.png';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        alert("✅ NID Image Downloaded Successfully!");
+      });
+    }
+  </script>
+
+</body>
+</html>
